@@ -1,0 +1,13 @@
+*.log
+*.sqlite
+.DS_Store
+.vscode
+
+node_modules
+public/*.txt
+secure
+storage
+temp.*
+
+keychain.json
+nginx.conf

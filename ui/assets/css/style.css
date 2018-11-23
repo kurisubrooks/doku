@@ -1,0 +1,58 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #EAEAEA;
+    font-family: "Bio Sans", sans-serif;
+    height: 100%;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.container.login {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.container.login .box {
+    background: white;
+    width: 500px;
+    border-radius: 50px;
+    height: 400px;
+    padding: 20px;
+}
+
+.container.login .box .header {
+    display: flex;
+}
+
+.container.login .box .title {
+    color: #707070;
+}
+
+input:focus {
+    outline: none;
+}
+
+input[type=text],
+input[type=password] {
+    font: inherit;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #DDDDDD;
+}
