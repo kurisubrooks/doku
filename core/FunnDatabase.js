@@ -7,8 +7,6 @@ const fs = require("bluebird").promisifyAll(require("fs"));
 // Database object cache
 let cache = {};
 let location; // = "database.json"
-// A FileHandle object that keeps the database open
-let fileHandle; // = new FileHandle();
 // For database concurency, only one write can be active at a time,
 let isWriteEnqueued = false;
 let isWriting = false;
@@ -22,8 +20,6 @@ class Database {
     static async load(_location) {
         location = path.join(__dirname, "..", _location);
         try {
-            // Open a file for reading and writing, exception if it does not exist
-            //fileHandle = await fs.open(location, "r+");
             // Attempt to read into cache
             const rawData = await fs.readFileAsync(location);
             // If its a new db file dont require it to be json;
