@@ -1,5 +1,5 @@
 const Endpoint = require("../../core/Endpoint");
-const Database = require("../../core/Database");
+const Database = require("../../core/JSONDB");
 
 class LoginHandler extends Endpoint {
     constructor() {
@@ -15,10 +15,15 @@ class LoginHandler extends Endpoint {
     }
 
     async run(req, res, data) {
-        /*
         if (!data.username) return res.send({ ok: false, error: "Missing Required Fields" });
         if (!data.password) return res.send({ ok: false, error: "Missing Required Fields" });
 
+        Database.set("users", "yes señor");
+
+        console.log(Database.get("users"));
+        return res.send("OK");
+
+        /*
         return Database.checkLogin(data.username, data.password).then(login => {
             if (login.ok) {
                 req.session.token = login.token;
