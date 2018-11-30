@@ -11,7 +11,7 @@ let location;
 let isWriteEnqueued = false;
 let isWriting = false;
 
-class Database {
+class Store {
     /** Load the database into memory
      * @param {String} _location
      * @static */
@@ -50,7 +50,7 @@ class Database {
         cache[key] = value;
         // Don't trigger another if it will write
         if (isWriteEnqueued) return;
-        Database.write();
+        Store.write();
     }
 
     /** Access the entire cache
@@ -89,9 +89,9 @@ class Database {
 
         if (isWriteEnqueued) {
             isWriteEnqueued = false;
-            Database.write();
+            Store.write();
         }
     }
 }
 
-module.exports = Database;
+module.exports = Store;

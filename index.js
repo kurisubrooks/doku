@@ -4,7 +4,7 @@
 global.Promise = require("bluebird");
 const server = require("express")();
 
-const Database = require("./core/JSONDB");
+const Database = require("./core/Store");
 const Logger = require("./core/Util/Logger");
 const RequestHandler = require("./core/RequestHandler");
 

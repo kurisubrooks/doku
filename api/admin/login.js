@@ -1,5 +1,5 @@
 const Endpoint = require("../../core/Endpoint");
-const Database = require("../../core/JSONDB");
+const Database = require("../../core/Database");
 
 class LoginHandler extends Endpoint {
     constructor() {
@@ -18,24 +18,23 @@ class LoginHandler extends Endpoint {
         if (!data.username) return res.send({ ok: false, error: "Missing Required Fields" });
         if (!data.password) return res.send({ ok: false, error: "Missing Required Fields" });
 
-        Database.set("users", "yes señor");
+        const users = Database.get("users");
 
-        console.log(Database.get("users"));
-        return res.send("OK");
-
-        /*
-        return Database.checkLogin(data.username, data.password).then(login => {
-            if (login.ok) {
-                req.session.token = login.token;
-                req.session.admin = login.admin;
+        if (users[data.username]) {
+            // do checks
+            const user = users[data.username];
+            const verify = Database.verify(user, data.password);
+            // check password
+            if (verify.ok) {
+                // success
+                req.session.token = verify.token;
+                req.session.admin = verify.admin;
                 this.log(`${data.username} logged in successfully`, "debug");
                 return res.send({ ok: true });
             }
+        }
 
-            this.log(`Rejected login attempt for ${data.username}`, "debug");
-            return res.send({ ok: false, error: "Invalid Credentials" });
-        });
-        */
+        return res.send({ ok: false, error: "Invalid Credentials" });
     }
 }
 

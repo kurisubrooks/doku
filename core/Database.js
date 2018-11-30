@@ -1,57 +1,34 @@
 const Logger = require("./Util/Logger");
 const Util = require("./Util/Util");
+const Store = require("./Store");
 
 const valid = require("validator");
 const bcrypt = require("bcrypt");
-const path = require("path");
-const fs = require("fs");
 
 class Database {
-    static get location() {
-        return path.join(__dirname, "..", "database.json");
-    }
+    /** Verify User Login
+     * @static
+     * @param {*} username
+     * @param {*} password
+     * @returns */
+    static async verify(username, password) {
+        if (!username) return { ok: false, error: "Missing Username" };
+        if (!password) return { ok: false, error: "Missing Password" };
 
-    static initDB() {
-        // Check if DB file exists
-        if (!fs.existsSync(Database.location())) {
-            try {
-                fs.writeFileSync(Database.location(), JSON.stringify({}));
-                return true;
-            } catch(error) {
-                Logger.error("DB Write", error, true);
-                return false;
-            }
-        }
+        // Retrieve Database
+        const db = Store.get("users");
 
-        // Check if DB is readable
-        if (!Database.readDB()) {
-            Logger.error("DB Read", "Unable to read database. Check the file permissions.");
-            process.exit(1);
-        }
+        // Check for Username in Store
+        const user = db[username];
+        if (!user) return { ok: false, error: "Incorrect Credentials" };
 
-        return true;
-    }
+        // Compare Input with Store
+        const auth = await bcrypt.compare(password, user.password);
 
-    static async readDB() {
-        try {
-            // Read File and return it
-            const read = await fs.readFile(Database.location());
-            if (!read) return false;
-            return read;
-        } catch(error) {
-            Logger.error("DB Read", error, true);
-            return false;
-        }
-    }
-
-    static findInDB(key, type) {
-        if (type === "key") {
-            //
-        }
-
-        if (type === "token") {
-            //
-        }
+        // Return results
+        return auth
+            ? { ok: true, token: user.token, admin: user.admin }
+            : { ok: false, error: "Incorrect Credentials" };
     }
 
     static async checkToken(token) {
@@ -60,23 +37,6 @@ class Database {
         return user
             ? { ok: true, username: user.username, token }
             : { ok: false, error: "Unable to Authenticate Token", input: token };
-    }
-
-    static async checkLogin(username, password) {
-        if (!username) return { ok: false, error: "Missing Username" };
-        if (!password) return { ok: false, error: "Missing Password" };
-
-        // Check if username exists
-        const user = await Database.Models.User.findOne({ where: { username } });
-        if (!user) return { ok: false, error: "Incorrect Credentials" };
-
-        // Compare passwords
-        const auth = await bcrypt.compare(password, user.password);
-
-        // Return Results
-        return auth
-            ? { ok: true, token: user.token, admin: user.admin }
-            : { ok: false, error: "Incorrect Credentials" };
     }
 
     static async newUser(data) {
