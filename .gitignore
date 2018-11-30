@@ -1,5 +1,6 @@
 *.log
 *.sqlite
+database.json
 .DS_Store
 .vscode
 
