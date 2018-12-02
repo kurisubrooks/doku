@@ -1,19 +1,27 @@
 const Endpoint = require("../core/Endpoint");
 
-class WebUIIndex extends Endpoint {
+class WebUIMain extends Endpoint {
     constructor() {
         super({
-            name: "Index",
-            description: "Index",
+            name: "Home",
+            description: "Home Page Renderer",
             method: "GET",
             route: "/",
-            auth: true
+            auth: false
         });
     }
 
     async run(req, res, data) {
-        //
+        if (!req.session || !req.session.token) {
+            return res.redirect("/login");
+        }
+
+        return res.render("ui/views/_layout", {
+            title: "Home",
+            template: null,
+            content: "_error.ejs"
+        });
     }
 }
 
-module.exports = WebUIIndex;
+module.exports = WebUIMain;

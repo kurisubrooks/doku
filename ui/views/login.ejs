@@ -3,14 +3,37 @@
     <div class="title">Login</div>
 </div>
 
-<form action="/api/login" method="POST">
+<form target="" id="form">
     <div class="title">User</div>
-    <input type="text" id="username">
+    <input type="text" placeholder="Username" name="username" id="username" required>
 
     <div class="title">Password</div>
-    <input type="password" id="password">
+    <input type="password" placeholder="Password" name="password" id="password" required>
 
     <div class="submit">
         <input type="submit" class="button" value="Submit">
     </div>
 </form>
+
+<script>
+    $("#form").on("submit", function(event) {
+        event.preventDefault();
+
+        var username = $("#username").val();
+        var password = $("#password").val();
+
+        if (!username || !password) {
+            return console.error("missing fields");
+        }
+
+        $.post("/api/login", { username: username, password: password }, function(data) {
+            if (data.ok) {
+                return window.location.replace("/");
+            } else {
+                return console.error(data.error);
+            }
+        });
+
+        return;
+    });
+</script>

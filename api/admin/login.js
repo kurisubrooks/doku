@@ -15,19 +15,20 @@ class LoginHandler extends Endpoint {
     }
 
     async run(req, res, data) {
+        if (req.session.token) {
+            return res.send({ ok: false, error: "Already Logged In" });
+        }
+
         if (!data.username || !data.password) {
             return res.send({ ok: false, error: "Missing Required Fields" });
         }
 
         const verify = await Database.verifyLogin(data.username, data.password);
 
-        console.log(verify);
-
-        // check password
         if (verify.ok) {
-            // success
             req.session.token = verify.token;
             req.session.admin = verify.admin;
+
             this.log(`${data.username} logged in successfully`, "debug");
             return res.send({ ok: true });
         }
