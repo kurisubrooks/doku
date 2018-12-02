@@ -56,7 +56,7 @@
         "no-extra-parens": [ "warn", "all", { "nestedBinaryExpressions": false } ],
         "no-floating-decimal": "error",
         "no-implied-eval": "error",
-        "no-inline-comments": "error",
+        "no-inline-comments": 0,
         "no-invalid-this": "error",
         "no-label-var": "error",
         "no-lone-blocks": "error",
