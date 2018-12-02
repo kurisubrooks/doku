@@ -1,28 +1,40 @@
 const Logger = require("./Util/Logger");
-const Util = require("./Util/Util");
 const Store = require("./Store");
 
 const valid = require("validator");
+const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 
 class Database {
-    /** Verify User Login
-     * @static
-     * @param {*} username
-     * @param {*} password
-     * @returns */
-    static async verify(username, password) {
+    static generateToken() {
+        return crypto.randomBytes(Math.ceil(32 / 2)).toString("hex");
+    }
+
+    static async verifyToken(token) {
+        const db = Store.get("users");
+        const user = db.find(user => user.token === token);
+        return user
+            ? { ok: true, username: user.username, token }
+            : { ok: false, error: "Unable to Authenticate Token", input: token };
+    }
+
+    static async verifyUsername(username) {
+        const db = Store.get("users");
+        const user = db.some(user => user.username === username);
+        return { ok: user };
+    }
+
+    static async verifyLogin(username, password) {
         if (!username) return { ok: false, error: "Missing Username" };
         if (!password) return { ok: false, error: "Missing Password" };
 
-        // Retrieve Database
         const db = Store.get("users");
 
-        // Check for Username in Store
-        const user = db[username];
+        // Check if Username exists
+        const user = db.find(user => user.username === username);
         if (!user) return { ok: false, error: "Incorrect Credentials" };
 
-        // Compare Input with Store
+        // Compare Input Password with Stored Password
         const auth = await bcrypt.compare(password, user.password);
 
         // Return results
@@ -31,28 +43,18 @@ class Database {
             : { ok: false, error: "Incorrect Credentials" };
     }
 
-    static async checkToken(token) {
-        if (!token) return { ok: false, error: "Missing Token" };
-        const user = await Database.Models.User.findOne({ where: { token } });
-        return user
-            ? { ok: true, username: user.username, token }
-            : { ok: false, error: "Unable to Authenticate Token", input: token };
-    }
-
     static async newUser(data) {
         if (!data) return { ok: false, error: "Missing Data" };
-        if (!data.auth) return { ok: false, error: "Missing Auth Key" };
+        if (!data.name) return { ok: false, error: "Missing Display Name" };
         if (!data.email) return { ok: false, error: "Missing Email" };
         if (!data.username) return { ok: false, error: "Missing Username" };
         if (!data.password) return { ok: false, error: "Missing Password" };
 
-        // Check auth key
-        const keyCheck = await Database.Models.RegKeys.findOne({ where: { key: data.auth } });
-        if (!keyCheck) return { ok: false, error: "Invalid Auth Key" };
-        Logger.debug("New User", "OK: Auth Key is valid");
+        // Retrieve Database
+        const users = Store.get("users");
 
         // Check if user already exists
-        const nameCheck = await Database.Models.User.findOne({ where: { username: data.username } });
+        const nameCheck = users.some(user => user.username === data.username);
         if (nameCheck) return { ok: false, error: "Username already exists" };
         Logger.debug("New User", "OK: Username is available");
 
@@ -65,33 +67,34 @@ class Database {
         Logger.debug("New User", "OK: Username is valid");
 
         // Check if token already exists
-        const token = Util.generateToken();
-        const tokenCheck = await Database.Models.User.findOne({ where: { token } });
+        const token = Database.generateToken();
+        const tokenCheck = users.some(user => user.token === token);
         if (tokenCheck) return { ok: false, error: "Internal Server Error" };
         Logger.debug("New User", "OK: Generated token is available");
 
         // Hash password
-        const hash = bcrypt.hashSync(data.password, 10);
+        const password = bcrypt.hashSync(data.password, 10);
         Logger.debug("New User", "OK: Password successfully hashed");
 
-        // Delete Key from DB
-        const keyRemove = await Database.Models.RegKeys.findOne({ where: { key: data.auth } });
-        if (!keyRemove) return { ok: false, error: "Internal Server Error" };
-        await keyRemove.destroy();
-        Logger.debug("New User", "OK: Auth Key deleted successfully");
-
         // Add user to db
-        const user = await Database.Models.User.create({
-            admin: data.admin || false,
-            token: token,
-            email: data.email,
-            username: data.username,
-            password: hash,
-            permissions: JSON.stringify({}),
-            disabled: false
-        });
+        // Re-retrieve Database incase the above methods took long and there were changes to the database in the meantime (yes im being paranoid)
+        const db = Store.get("users");
 
-        if (!user) return { ok: false, error: "Internal Server Error" };
+        const user = {
+            token,
+            created: new Date().toISOString(),
+            name: data.name,
+            username: data.username,
+            email: data.email,
+            password,
+            admin: false,
+            disabled: false,
+            data: {}
+        };
+
+        db.push(user);
+        Store.set("users", db);
+
         Logger.debug("New User", "OK: User Added to Database");
 
         return { ok: true, username: data.username, token };

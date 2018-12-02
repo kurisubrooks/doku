@@ -15,26 +15,24 @@ class LoginHandler extends Endpoint {
     }
 
     async run(req, res, data) {
-        if (!data.username) return res.send({ ok: false, error: "Missing Required Fields" });
-        if (!data.password) return res.send({ ok: false, error: "Missing Required Fields" });
-
-        const users = Database.get("users");
-
-        if (users[data.username]) {
-            // do checks
-            const user = users[data.username];
-            const verify = Database.verify(user, data.password);
-            // check password
-            if (verify.ok) {
-                // success
-                req.session.token = verify.token;
-                req.session.admin = verify.admin;
-                this.log(`${data.username} logged in successfully`, "debug");
-                return res.send({ ok: true });
-            }
+        if (!data.username || !data.password) {
+            return res.send({ ok: false, error: "Missing Required Fields" });
         }
 
-        return res.send({ ok: false, error: "Invalid Credentials" });
+        const verify = await Database.verifyLogin(data.username, data.password);
+
+        console.log(verify);
+
+        // check password
+        if (verify.ok) {
+            // success
+            req.session.token = verify.token;
+            req.session.admin = verify.admin;
+            this.log(`${data.username} logged in successfully`, "debug");
+            return res.send({ ok: true });
+        }
+
+        return res.send({ ok: false, error: verify.error });
     }
 }
 

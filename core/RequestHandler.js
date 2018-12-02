@@ -52,9 +52,9 @@ class RequestHandler {
         const route = this.routes.get(req.route.path);
         const masked = route && route.mask ? {} : data;
         const user = token
-            ? await Database.checkToken(token)
+            ? await Database.verifyToken(token)
             : req.session && req.session.token
-                ? await Database.checkToken(req.session.token)
+                ? await Database.verifyToken(req.session.token)
                 : { ok: false };
 
         // Handle 404

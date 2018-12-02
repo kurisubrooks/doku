@@ -1,5 +1,4 @@
 const Logger = require("./Logger");
-const crypto = require("crypto");
 
 class Util {
     constuctor() {
@@ -14,10 +13,6 @@ class Util {
 
     static toUpper(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    static generateToken() {
-        return crypto.randomBytes(Math.ceil(32 / 2)).toString("hex");
     }
 }
 
