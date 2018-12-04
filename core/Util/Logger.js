@@ -52,7 +52,8 @@ class Logger {
     }
 
     static fatal(name = "Fatal", message, stacktrace) {
-        throw Logger.log(chalk.bgRed.white, name, message, stacktrace);
+        Logger.log(chalk.bgRed.white, name, message, stacktrace);
+        return process.exit(1);
     }
 
     static debug(name = "Debug", message) {
