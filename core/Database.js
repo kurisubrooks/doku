@@ -6,12 +6,6 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 
 class Database {
-    static get template() {
-        return {
-            "users": []
-        };
-    }
-
     static generateToken() {
         return crypto.randomBytes(Math.ceil(32 / 2)).toString("hex");
     }

@@ -1,6 +1,5 @@
 // Written by Funnbot on November 23, 2018
 const Logger = require("./Util/Logger");
-const Database = require("./Database");
 const path = require("path");
 const fs = require("bluebird").promisifyAll(require("fs"));
 
@@ -13,6 +12,12 @@ let isWriteEnqueued = false;
 let isWriting = false;
 
 class Store {
+    static get template() {
+        return {
+            "users": []
+        };
+    }
+
     /** Load the database into memory
      * @param {String} _location
      * @static */
@@ -27,7 +32,7 @@ class Store {
                     Logger.warn("Database", `Database file does not exist. Creating at ${location}`);
 
                     // Create file
-                    await fs.writeFile(_location, JSON.stringify(Database.template), (err) => {
+                    await fs.writeFile(_location, JSON.stringify(Store.template), (err) => {
                         if (err) {
                             Logger.fatal("Database", `${err.code} Unable to create Database file.`);
                         }
