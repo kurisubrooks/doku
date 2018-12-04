@@ -24,6 +24,10 @@ html, body {
     width: 400px;
 }
 
+.container .decal #mark {
+    width: 300px;
+}
+
 .container .login {
     display: flex;
     justify-content: center;
