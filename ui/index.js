@@ -16,10 +16,8 @@ class WebUIMain extends Endpoint {
             return res.redirect("/login");
         }
 
-        return res.render("ui/views/_layout", {
-            title: "Home",
-            template: null,
-            content: "_error.ejs"
+        return res.render("ui/views/home", {
+            title: "Home"
         });
     }
 }

@@ -1,0 +1,101 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    color: #FFFFFF;
+    background: #171717;
+    font-family: "Roboto", sans-serif;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.container .decal {
+    display: block;
+    background: #121212;
+    width: 400px;
+}
+
+.container .login {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex: 2;
+}
+
+.container .login > .title {
+    font-family: "Bio Sans", sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    text-align: left;
+    width: 380px;
+    margin-bottom: 40px;
+}
+
+.container .login .form {
+    width: 380px;
+}
+
+.container .login .form .options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.container .login .form .options .left {
+    font-size: 15px;
+    color: #CCCCCC;
+}
+
+.container .login .form .options .left .em {
+    text-decoration: underline;
+    color: #FFFFFF;
+}
+
+input:focus {
+    outline: none;
+}
+
+input[type=text],
+input[type=password] {
+    font: inherit;
+    font-size: 16px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 12px;
+    background: #393939;
+    padding: 11px 22px;
+    color: #EEE;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+input[type=button],
+input[type=submit] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font: inherit;
+    font-weight: 500;
+    font-size: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #393939;
+    color: inherit;
+    padding: 9px 35px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}

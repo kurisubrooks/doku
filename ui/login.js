@@ -1,5 +1,4 @@
 const Endpoint = require("../core/Endpoint");
-const fs = require("fs");
 
 class WebUILogin extends Endpoint {
     constructor() {
@@ -14,10 +13,8 @@ class WebUILogin extends Endpoint {
     }
 
     async run(req, res, data) {
-        return res.render("ui/views/_layout", {
-            title: "Login",
-            template: "login",
-            content: "login.ejs"
+        return res.render("ui/views/login", {
+            title: "Login"
         });
     }
 }

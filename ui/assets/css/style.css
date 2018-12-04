@@ -18,30 +18,6 @@ html, body {
     padding: 0 30px;
 }
 
-.container.login {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 30px;
-}
-
-.container.login .box {
-    background: white;
-    width: 500px;
-    border-radius: 50px;
-    height: 400px;
-    padding: 20px;
-}
-
-.container.login .box .header {
-    display: flex;
-}
-
-.container.login .box .title {
-    color: #707070;
-}
-
 input:focus {
     outline: none;
 }
