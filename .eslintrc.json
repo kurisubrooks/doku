@@ -49,7 +49,7 @@
         "new-cap": "error",
         "newline-per-chained-call": [ 0, { "ignoreChainWithDepth": 3 } ],
         "no-array-constructor": "error",
-        "no-bitwise": "warn",
+        "no-bitwise": 0,
         "no-console": "warn",
         "no-duplicate-imports": "error",
         "no-empty-function": "error",
