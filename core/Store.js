@@ -1,5 +1,6 @@
 // Written by Funnbot on November 23, 2018
 const Logger = require("./Util/Logger");
+const Database = require("./Database");
 const path = require("path");
 const fs = require("bluebird").promisifyAll(require("fs"));
 
@@ -19,6 +20,32 @@ class Store {
         if (!_location) _location = "database.json";
         location = path.join(__dirname, "..", _location);
 
+        await fs.access(_location, fs.constants.F_OK | fs.constants.W_OK, async(err) => {
+            if (err) {
+                if (err.code === "ENOENT") {
+                    // File does not exist
+                    Logger.warn("Database", `Database file does not exist. Creating at ${location}`);
+
+                    // Create file
+                    await fs.writeFile(_location, JSON.stringify(Database.template), (err) => {
+                        if (err) {
+                            Logger.fatal("Database", `${err.code} Unable to create Database file.`);
+                        }
+
+                        Logger.info("Database", "Created Database File.");
+                    });
+                } else {
+                    // File is Read Only
+                    return Logger.fatal("Database", `${err.code} Unable to load Database file, it seems to be READ ONLY. Please rectify the issue, or run the program again with sudo. File: ${location}`);
+                }
+            }
+
+            // Wait for file to be written to disk before loading
+            return setTimeout(Store.read, 1000);
+        });
+    }
+
+    static async read() {
         try {
             // Attempt to read into cache
             const rawData = await fs.readFileAsync(location);
@@ -29,8 +56,12 @@ class Store {
             } else {
                 cache = JSON.parse(rawData);
             }
+
+            Logger.success("Database", "Loaded Database into memory.");
+            return true;
         } catch(err) {
-            Logger.fatal("DB Load", `Check if it exists, has read/write permission, and the JSON is valid. File: ${location}`, err);
+            Logger.fatal("Database", `Unable to load Database file. Try to run the program again, this usually fixes it. File: ${location}`, err);
+            return false;
         }
     }
 
