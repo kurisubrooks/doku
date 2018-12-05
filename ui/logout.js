@@ -1,3 +1,4 @@
+const Database = require("../core/Database");
 const Endpoint = require("../core/Endpoint");
 
 class WebUILogout extends Endpoint {
@@ -14,8 +15,9 @@ class WebUILogout extends Endpoint {
     }
 
     async run(req, res) {
-        delete req.session.token;
-        delete req.session.admin;
+        const user = await Database.verifyToken(req.session.token);
+        this.log(`${user.username} logged out successfully`, "debug");
+        req.session.destroy();
         return res.redirect("/login");
     }
 }
