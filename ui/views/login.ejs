@@ -52,6 +52,7 @@
                 if (data.ok) {
                     return window.location.replace("/");
                 } else {
+                    $("#password").select();
                     return console.error(data.error);
                 }
             });
