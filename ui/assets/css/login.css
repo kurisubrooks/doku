@@ -18,6 +18,29 @@ html, body {
     height: 100%;
 }
 
+@media only screen and (max-width: 1000px) {
+    .container {
+        flex-direction: column;
+        height: inherit;
+    }
+
+    .container .decal {
+        height: 60px;
+        width: 100% !important;
+    }
+
+    .container .decal #mark {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .container .login {
+        margin-top: 40px;
+        justify-content: flex-start !important;
+    }
+}
+
 .container .decal {
     display: block;
     background: #121212;
@@ -31,7 +54,6 @@ html, body {
 .container .login {
     display: flex;
     justify-content: center;
-    align-content: center;
     align-items: center;
     flex-direction: column;
     flex: 2;
