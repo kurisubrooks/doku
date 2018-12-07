@@ -24,34 +24,34 @@ html, body {
         height: inherit;
     }
 
-    .container .decal {
+    .decal {
         height: 60px;
         width: 100% !important;
     }
 
-    .container .decal #mark {
+    .decal #mark {
         display: none;
     }
 }
 
 @media only screen and (max-width: 700px) {
-    .container .login {
+    .login {
         margin-top: 40px;
         justify-content: flex-start !important;
     }
 }
 
-.container .decal {
+.decal {
     display: block;
     background: #121212;
     width: 400px;
 }
 
-.container .decal #mark {
+.decal #mark {
     width: 300px;
 }
 
-.container .login {
+.login {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,7 +59,7 @@ html, body {
     flex: 2;
 }
 
-.container .login > .title {
+.login > .title {
     font-family: "Bio Sans", sans-serif;
     font-size: 26px;
     font-weight: 600;
@@ -68,22 +68,22 @@ html, body {
     margin-bottom: 40px;
 }
 
-.container .login .form {
+.login .form {
     width: 380px;
 }
 
-.container .login .form .options {
+.login .form .options {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
 }
 
-.container .login .form .options .left {
+.login .form .options .left {
     font-size: 15px;
     color: #CCCCCC;
 }
 
-.container .login .form .options .left .em {
+.login .form .options .left .em {
     text-decoration: underline;
     color: #FFFFFF;
 }

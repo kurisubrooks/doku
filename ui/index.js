@@ -16,7 +16,7 @@ class WebUIMain extends Endpoint {
         if (!req.session || !req.session.token) {
             return res.redirect("/login");
         }
-        /
+        */
 
         return res.render("ui/views/home", {
             title: "Home"
