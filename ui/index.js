@@ -12,9 +12,11 @@ class WebUIMain extends Endpoint {
     }
 
     async run(req, res, data) {
+        /*
         if (!req.session || !req.session.token) {
             return res.redirect("/login");
         }
+        /
 
         return res.render("ui/views/home", {
             title: "Home"

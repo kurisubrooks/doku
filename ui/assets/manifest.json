@@ -1,0 +1,11 @@
+{
+    "name": "Doku",
+    "short_name": "Doku",
+    "description": "Medication Tracker",
+    "lang": "en-AU",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#1B191C",
+    "background_color": "#1B191C",
+    "orientation": "landscape-primary"
+}
