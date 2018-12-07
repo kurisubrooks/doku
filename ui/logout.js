@@ -16,9 +16,13 @@ class WebUILogout extends Endpoint {
 
     async run(req, res) {
         const user = await Database.verifyToken(req.session.token);
-        this.log(`${user.username} logged out successfully`, "debug");
-        req.session.destroy();
-        return res.redirect("/login");
+
+        if (user.ok) {
+            this.log(`${user.username} logged out successfully`, "debug");
+            req.session.destroy();
+        }
+
+        return res.redirect("/");
     }
 }
 

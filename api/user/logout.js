@@ -16,9 +16,14 @@ class LogoutHandler extends Endpoint {
 
     async run(req, res) {
         const user = await Database.verifyToken(req.session.token);
-        this.log(`${user.username} logged out successfully`, "debug");
-        req.session.destroy();
-        return res.send({ ok: true });
+
+        if (user.ok) {
+            this.log(`${user.username} logged out successfully`, "debug");
+            req.session.destroy();
+            return res.send({ ok: true });
+        } else {
+            return res.send({ ok: false });
+        }
     }
 }
 

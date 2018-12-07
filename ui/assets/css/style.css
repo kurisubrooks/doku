@@ -112,6 +112,12 @@ body > .container {
     margin-bottom: 15px;
 }
 
+.container .actions .header .title {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
 .container .actions .header .modify {
     display: flex;
     align-items: center;
@@ -182,6 +188,36 @@ body > .container {
     margin-right: 0;
 }
 
+.container .actions .buttons.long .button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container .actions .buttons.long .button .left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.container .actions .buttons.long .button .right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: right;
+    flex: 1;
+}
+
+.container .actions .buttons.long .button .edit {
+    height: 24px;
+    margin-left: 35px;
+}
+
+.container .actions .buttons.long .button .edit svg {
+    width: 24px;
+    fill: rgba(255, 255, 255, 0.5);
+}
+
 .container .actions .buttons .button .icon {
     position: relative;
     top: -1px;
@@ -203,7 +239,7 @@ body > .container {
     margin-bottom: 3px;
 }
 
-.container .actions .buttons .button .details .dose {
+.container .actions .buttons .button .details .subtitle {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.75);
 }
