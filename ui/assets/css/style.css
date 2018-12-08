@@ -182,10 +182,15 @@ body > .container {
     margin-bottom: 20px;
     min-width: 280px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.1s;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
     cursor: pointer;
+}
+
+.actions .buttons .button:hover {
+    box-shadow: 0 5px 5px 3px rgba(0, 0, 0, 0.15);
 }
 
 .actions .buttons .button:nth-child(3n) {
