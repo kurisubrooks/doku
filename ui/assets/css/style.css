@@ -42,6 +42,8 @@ body > .header .container {
 }
 
 body > .header .logo {
+    position: relative;
+    top: -2px;
     font-family: "bio-sans", "Bio Sans", "Roboto", sans-serif;
     font-size: 26px;
     font-weight: 600;
@@ -279,6 +281,7 @@ body > .container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 120px;
 }
 
 @media only screen and (max-width: 670px) {
@@ -297,20 +300,16 @@ body > .container {
 }
 
 .medicate .field .title {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
     margin-bottom: 20px;
 }
 
-.medicate .field select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    font: inherit;
+.medicate .submit {
+    display: flex;
     width: 100%;
-    border: 1.5px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    background: #2A282C;
-    padding: 11px 22px;
-    color: #EEE;
+    justify-content: flex-end;
 }
 
 .icon.prescription svg {
@@ -326,24 +325,39 @@ body > .container {
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
     outline: none;
 }
 
-input[type=text],
-input[type=password] {
-    font: inherit;
-    font-size: 16px;
+select,
+textarea,
+input[type=date] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+}
+
+input[type=text],
+input[type=number],
+input[type=date],
+input[type=password],
+textarea,
+select {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    color: #EEEEEE;
     border: 1.5px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     background: #2A282C;
     padding: 11px 22px;
-    color: #EEE;
-    width: 100%;
     margin-bottom: 20px;
+    resize: none;
+}
+
+input:disabled {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 input[type=button],
@@ -352,14 +366,14 @@ input[type=submit] {
     -moz-appearance: none;
     appearance: none;
     font: inherit;
+    color: inherit;
     font-weight: 500;
     font-size: 14px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background: #393939;
-    color: inherit;
-    padding: 9px 35px;
-    border-radius: 20px;
     text-transform: uppercase;
-    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.05);
     cursor: pointer;
+    padding: 11px 33px;
+    background: #2A282C;
+    border-radius: 20px;
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
 }
