@@ -260,6 +260,7 @@ body > .container {
 .preview .container {
     padding-top: 30px !important;
     padding-bottom: 35px !important;
+    margin-bottom: 35px !important;
 }
 
 .preview .container > .title {
@@ -337,16 +338,16 @@ textarea:focus {
 
 select,
 textarea,
-input[type=date] {
+input[type="date"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
 
-input[type=text],
-input[type=number],
-input[type=date],
-input[type=password],
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="password"],
 textarea,
 select {
     width: 100%;
@@ -365,8 +366,8 @@ input:disabled {
     color: rgba(255, 255, 255, 0.8);
 }
 
-input[type=button],
-input[type=submit] {
+input[type="button"],
+input[type="submit"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

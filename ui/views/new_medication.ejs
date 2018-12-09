@@ -8,123 +8,115 @@
     <link href="/assets/css/style.css" rel="stylesheet">
     <script src="/assets/js/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
 </head>
 <body>
 
     <%- include("../partials/header") %>
 
-    <div class="preview">
-        <div class="container">
-            <span class="title">Preview</span>
+    <div id="app">
+        <div class="preview">
+            <div class="container">
+                <span class="title">Preview</span>
 
-            <div class="actions" id="preview">
-                <div class="buttons long">
-                    <div class="button">
-                        <div class="left">
-                            <div class="icon prescription">
-                                <%- include("../assets/icons/prescription") %>
+                <div class="actions">
+                    <div class="buttons long">
+                        <div class="button">
+                            <div class="left">
+                                <div class="icon prescription">
+                                    <%- include("../assets/icons/prescription") %>
+                                </div>
+                                <div class="details">
+                                    <div class="title">{{ name }}</div>
+                                    <div class="subtitle">{{ dosage }}mg</div>
+                                </div>
                             </div>
-                            <div class="details">
-                                <div class="title" id="preview-name">{{ name }}</div>
-                                <div class="subtitle" id="preview-dose">{{ dose }}</div>
-                            </div>
-                        </div>
-                        <div class="right">
-                            <div class="details">
-                                <div class="title">Valid Until</div>
-                                <div class="subtitle" id="preview-date">{{ date }}</div>
+                            <div class="right">
+                                <div class="details">
+                                    <div class="title">Valid Until</div>
+                                    <div class="subtitle">{{ date }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="medicate">
-            <div class="field">
-                <div class="title">Name</div>
-                <input type="text" placeholder="Xanax" v-model="name">
+        <div class="container">
+            <div class="medicate">
+                <div class="field">
+                    <div class="title">Name</div>
+                    <input type="text" v-model="name" placeholder="Xanax">
+                </div>
+                <div class="field">
+                    <div class="title">Active Ingredient</div>
+                    <input type="text" placeholder="Alprazolam">
+                </div>
+                <div class="field wide">
+                    <div class="title">Type</div>
+                    <select>
+                        <option value="1">Prescription</option>
+                        <option value="1">Temporary</option>
+                        <option value="1">As Needed</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <div class="title">Dose per pill</div>
+                    <input type="number" v-model="dose" placeholder="10" min="0.1">
+                </div>
+                <div class="field">
+                    <div class="title">Pills per day</div>
+                    <input type="number" v-model="count" placeholder="1" min="1">
+                </div>
+                <div class="field">
+                    <div class="title">Pills Dispensed</div>
+                    <input type="number" placeholder="30" min="1">
+                </div>
+                <div class="field">
+                    <div class="title">Repeats Remaining</div>
+                    <input type="number" placeholder="5" min="0" max="5">
+                </div>
+                <div class="field">
+                    <div class="title">Started Taking</div>
+                    <input type="date" id="date">
+                </div>
+                <div class="field">
+                    <div class="title">Doctor's Notes</div>
+                    <textarea></textarea>
+                </div>
+                <div class="submit">
+                    <input type="submit" value="Submit">
+                </div>
+                <!-- <div class="field">
+                    <div class="title">Remaining Pills</div>
+                    <input type="number" value="0" disabled>
+                </div> -->
             </div>
-            <div class="field">
-                <div class="title">Active Ingredient</div>
-                <input type="text" placeholder="Alprazolam">
-            </div>
-            <div class="field wide">
-                <div class="title">Type</div>
-                <select>
-                    <option value="1">Prescription</option>
-                    <option value="1">Temporary</option>
-                    <option value="1">As Needed</option>
-                </select>
-            </div>
-            <div class="field">
-                <div class="title">Dose per pill</div>
-                <input type="number" placeholder="10" min="0.1" id="dose">
-            </div>
-            <div class="field">
-                <div class="title">Pills per day</div>
-                <input type="number" placeholder="1" min="1" id="count">
-            </div>
-            <div class="field">
-                <div class="title">Pills Dispensed</div>
-                <input type="number" placeholder="30" min="1">
-            </div>
-            <div class="field">
-                <div class="title">Repeats Remaining</div>
-                <input type="number" placeholder="5" min="0" max="5">
-            </div>
-            <div class="field">
-                <div class="title">Started Taking</div>
-                <input type="date" id="date">
-            </div>
-            <div class="field">
-                <div class="title">Doctor's Notes</div>
-                <textarea></textarea>
-            </div>
-            <div class="submit">
-                <input type="submit" value="Submit">
-            </div>
-            <!-- <div class="field">
-                <div class="title">Remaining Pills</div>
-                <input type="number" value="0" disabled>
-            </div> -->
         </div>
     </div>
 
     <script>
 
         var app = new Vue({
-            el: "#preview",
+            el: "#app",
             data: {
                 name: "Xanax",
-                dose: "10mg",
-                date: "??.??.??"
+                dose: 10,
+                count: 1
+            },
+            computed: {
+                dosage() {
+                    return this.dose * this.count;
+                },
+                date() {
+                    var toTwoDigits = num => (num < 10 ? "0" + num : num);
+                    var today = new Date();
+                    var year = today.getFullYear();
+                    var month = toTwoDigits(today.getMonth() + 1);
+                    var day = toTwoDigits(today.getDate());
+                    return `${year}-${month}-${day}`;
+                }
             }
         });
-
-        $("#name").on("keyup", function() {
-            $("#preview-name").text($(this).val());
-        });
-
-        $("#dose").on("keyup", function() {
-            var dose = Number($(this).val());
-            var count = Number($("#count").val());
-            if (!count) count = 1;
-            $("#preview-dose").text((dose * count) + "mg");
-        });
-
-        $("#count").on("keyup", function() {
-            var dose = Number($("#dose").val());
-            var count = Number($(this).val());
-            if (!dose) dose = 1;
-            $("#preview-dose").text((dose * count) + "mg");
-        });
-
-        $("#date").on("keyup", function() {
-            $("#preview-date").val($(this).val());
-        })
 
     </script>
 
