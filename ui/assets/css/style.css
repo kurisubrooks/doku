@@ -253,6 +253,18 @@ body > .container {
     color: rgba(255, 255, 255, 0.75);
 }
 
+.actions .buttons .button .left {
+    display: flex;
+    flex: 0;
+}
+
+.actions .buttons.long .button .right {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 1;
+}
+
 .preview {
     background: #2A282C;
 }

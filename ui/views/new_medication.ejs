@@ -7,7 +7,7 @@
 
     <link href="/assets/css/style.css" rel="stylesheet">
     <script src="/assets/js/jquery.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 <body>
 
@@ -31,6 +31,14 @@
                                 </div>
                             </div>
                             <div class="right">
+                                <div class="details">
+                                    <div class="title">Remaining</div>
+                                    <div class="subtitle">{{ dosage }}</div>
+                                </div>
+                                <div class="details">
+                                    <div class="title">Refill By</div>
+                                    <div class="subtitle">{{ date }}</div>
+                                </div>
                                 <div class="details">
                                     <div class="title">Valid Until</div>
                                     <div class="subtitle">{{ date }}</div>
@@ -113,7 +121,7 @@
                     var year = today.getFullYear();
                     var month = toTwoDigits(today.getMonth() + 1);
                     var day = toTwoDigits(today.getDate());
-                    return `${year}-${month}-${day}`;
+                    return `${day}/${month}/${year}`;
                 }
             }
         });
